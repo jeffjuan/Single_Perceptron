@@ -24,7 +24,7 @@ namespace MyPLA
             try
             {
                 // 輸入
-                Console.WriteLine("\nBegin Perceptron demo\n");
+                Console.WriteLine("\n===| 開始執行，列出輸入值 |===\n");
                 int[][] trainingData = new int[10][];
                 // 最後一個值是期望值
                 trainingData[0] = new int[] { 2, 3, 3, 2, 1 };  
@@ -49,23 +49,23 @@ namespace MyPLA
                 ShowData(trainingData[8]);
                 ShowData(trainingData[9]);
 
-                Console.WriteLine("\n\nFinding best weights and bias");
-                int maxEpochs = 1000;
+                Console.WriteLine("\n\n找出最佳權重與閥值........");
+                int maxEpochs = 1000; // loop 最大次數
                 double alpha = 0.075; //學習率
                 double targetError = 0.0;
-                double bestBias = 0.0; // 閥值
-                double[] bestWeights = FindBestWeights(trainingData, maxEpochs, alpha, targetError, out bestBias);
-                Console.WriteLine("\nTraining complete");
+                double bestBias = 0.0; // 最佳閥值
+                double[] bestWeights = FindBestWeights(trainingData, maxEpochs, alpha, targetError, out bestBias); //最佳權重
+                Console.WriteLine("\n===| 訓練完成 |===");
 
                 double totalError = TotalError(trainingData, bestWeights, bestBias);
-                Console.WriteLine("\nAfter training total error = " + totalError.ToString("F4"));
+                Console.WriteLine("\n訓練後總錯誤值 = " + totalError.ToString("F4"));
 
                 // 丟入新資料來測試
                 //int[] unknown = new int[] { 1, 1, 1, 2, 0 };
                 //int[] unknown = new int[] { 2, 3, 3, 1, 1 };
                 int[] unknown = new int[] { 1, 2, 2, 2, 0 };
 
-                Console.WriteLine("\n丟入新資料來測試\n");
+                Console.WriteLine("\n===| 丟入新資料來測試 |===\n");
                 ShowData(unknown);
 
                 int prediction = Predict(unknown, bestWeights, bestBias);  // perform the classification
@@ -73,7 +73,7 @@ namespace MyPLA
                 string s1 = "預測正確";
                 if (prediction == 0) Console.WriteLine(s0); else Console.WriteLine(s1);
 
-                Console.WriteLine("\nEnd Perceptron demo\n");
+                Console.WriteLine("\n===| 結束程式 |===");
 
             }
             catch (Exception ex)
@@ -84,27 +84,30 @@ namespace MyPLA
  
         }
 
-        // 找出最佳權重群
+        // 找出最佳權重群與最佳閥值
         public static double[] FindBestWeights(int[][] trainingData, int maxEpochs, double alpha, double targetError, out double bestBias)
         {
             int dim = trainingData[0].Length - 1; // 扣掉最後一個值(期望值)
-            double[] weights = new double[dim];  // 初始化所有權重為 0
-            double bias = 0.05; // 初始化閥值
+            double[] weights = new double[dim];  // 初始化所有共用的權重為 0
+            double bias = 0.05; // 初始化共用的閥值
             double totalError = double.MaxValue; // 初始化錯誤值總量
             int epoch = 0;
 
+            // 調整次數最多 1000 次
+            // 總錯誤值必須小於 0 
             while (epoch < maxEpochs && totalError > targetError)
             //while (epoch < maxEpochs)
             {
                 for (int i = 0; i < trainingData.Length; ++i)  // each training vector
                 {
                     // 每一期望值
-                    int desired = trainingData[i][trainingData[i].Length - 1];  // last bit
+                    int desired = trainingData[i][trainingData[i].Length - 1];  // 取出最後一個字元是期望值
                     // 每一輸出值
-                    int output = ComputeOutput(trainingData[i], weights, bias);
+                    int output = ComputeOutput(trainingData[i], weights, bias); 
 
-                    int delta = desired - output;  // -1 (if output too large), 0 (output correct), or +1 (output too small)
+                    int delta = desired - output;  // 只有三種：-1,0,1
 
+                    // delta > 0, weight和bias就微幅加量。delta < 0, weight和bias就微幅減量。
                     for (int j = 0; j < weights.Length; ++j)
                         weights[j] = weights[j] + (alpha * delta * trainingData[i][j]);  // 更新每一權重
 
@@ -136,7 +139,7 @@ namespace MyPLA
             {
                 int desired = trainingData[i][trainingData[i].Length - 1];
                 int output = ComputeOutput(trainingData[i], weights, bias);
-                sum += (desired - output) * (desired - output);  // equivalent to Abs(desired - output) in this case
+                sum += (desired - output) * (desired - output);  // 平方，以取正值
             }
             return 0.5 * sum;
         }

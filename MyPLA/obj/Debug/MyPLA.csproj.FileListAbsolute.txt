@@ -7,3 +7,9 @@ E:\測試區\MyPLA\MyPLA\obj\Debug\MyPLA.pdb
 C:\Users\jeff\Desktop\單層感知器\MyPLA\bin\Debug\MyPLA.exe.config
 C:\Users\jeff\Desktop\單層感知器\MyPLA\obj\Debug\MyPLA.exe
 C:\Users\jeff\Desktop\單層感知器\MyPLA\obj\Debug\MyPLA.pdb
+D:\程式範例區\單層感知器\MyPLA\bin\Debug\MyPLA.exe.config
+D:\程式範例區\單層感知器\MyPLA\obj\Debug\MyPLA.exe
+D:\程式範例區\單層感知器\MyPLA\obj\Debug\MyPLA.pdb
+D:\程式範例區\單層感知器\MyPLA\bin\Debug\MyPLA.exe
+D:\程式範例區\單層感知器\MyPLA\bin\Debug\MyPLA.pdb
+D:\程式範例區\單層感知器\MyPLA\obj\Debug\MyPLA.csprojResolveAssemblyReference.cache
